@@ -1,0 +1,34 @@
+Reflection — Accuracy Gap Analysis
+====================================
+
+NarrativeGuard's best model (Logistic Regression) achieves 68.25%
+accuracy on the LIAR2 test set, which is notably lower than the 94–99%
+reported by comparable studies.  Three key factors explain this gap:
+
+(a) Full-article vs. short-statement difficulty: The ISOT dataset used
+    by Karim, Asad & Azam (2024/2026) contains full news articles
+    (hundreds of words), providing rich lexical cues.  LIAR2 statements
+    average ~17 words after cleaning — far less signal for any classifier
+    to exploit.  Similarly, FakeCTI classifies campaigns with repeated
+    narrative patterns, not isolated one-line claims.
+
+(b) Lexical vs. semantic vs. transformer feature richness: TF-IDF
+    captures surface-level word frequencies and bigrams but cannot
+    model paraphrase, context, or world knowledge.  Transformer
+    architectures (BERT, DistilBERT) encode deep contextual semantics
+    and have been pre-trained on billions of tokens, giving them a
+    substantial advantage — especially on short, ambiguous text where
+    word overlap alone is insufficient.
+
+(c) Compute constraints: Fine-tuning DistilBERT or running SBERT
+    inference on >18,000 statements requires GPU resources beyond
+    the scope of this coursework run.  The optional transformer
+    baseline in modelling.py demonstrates how such an approach would
+    be integrated, and the literature benchmarks in Table 7 provide
+    the expected performance ceiling.
+
+Despite the lower absolute accuracy, the classical pipeline validates
+the end-to-end CTI classification framework and confirms that TF-IDF
+with balanced linear classifiers can discriminate fake from real
+statements well above the 50% random baseline, even on challenging
+short-text data.
